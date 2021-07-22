@@ -20,17 +20,17 @@ module.exports = {
                 : '[name]_[local]_[hash:base64:5]'
           }
         },
-			// 引入一个默认less文件  也可以在main.js中import导入
-		  less: {
-			lessOptions: {
-			  modifyVars: {
-				hack: `true; @import "${path.resolve(
-				  __dirname,
-				  './src/assets/styles/base.less'
-				)}";`
-			  }
-			}
-		  }
+				// 引入一个默认less文件  也可以在main.js中import导入
+				less: {
+					lessOptions: {
+						modifyVars: {
+						hack: `true; @import "${path.resolve(
+							__dirname,
+							'./src/assets/styles/base.less'
+						)}";`
+						}
+					}
+				}
       }
     },
    chainWebpack: config => {

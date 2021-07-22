@@ -4,10 +4,12 @@ import App from './App.vue'
 import router from './router/router.js'
 import axios from 'axios'
 import Vuex from 'vuex'
-// 京东框架
+// 京东框架2.X
 import nutUI from '@nutui/nutui/dist/nutui.min.js';  // 加载构建后的JS
 import '@nutui/nutui/dist/nutui.min.css';  //加载构建后的CSS
 nutUI.install(Vue);
+
+
 // 全局配置接口base
 import global_ from './global/Global.vue'
 import store from './vuex/store'
@@ -32,6 +34,8 @@ Vue.use(preview)
 // import Bus from "./global/bus"
 // Vue.use(Bus)
 Vue.prototype.$bus = new Vue();
+
+Vue.prototype.$_publicPath = process.env.BASE_URL
 
 Vue.prototype.GLOBAL = global_;//便于全局变量访问
 axios.defaults.baseURL=global_.BASE_URL;

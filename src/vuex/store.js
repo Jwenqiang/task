@@ -8,7 +8,8 @@ const store = new Vuex.Store({
 		count:0,
 		hasLogin: false,
 		userInfo: {},
-		isNew:true
+		isNew:true,
+		scoreList:""
 	},
 	getters :{
 	    getterHasLogin(state) {
@@ -19,6 +20,9 @@ const store = new Vuex.Store({
 	    }
 	},	
 	mutations: {
+		setScoreList(state,data){
+			state.scoreList = data;
+		},
 		add(s,v){
 			s.count+=v;
 		},

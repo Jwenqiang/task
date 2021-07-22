@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-<!-- 	  <header>
+	  <header>
 	    <slot name="header"></slot>
 	  </header>
 	  <main>
@@ -8,7 +8,7 @@
 	  </main>
 	  <footer>
 	    <slot name="footer"></slot>
-	  </footer> -->
+	  </footer>
 	</div>
 </template>
 

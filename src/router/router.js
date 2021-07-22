@@ -14,16 +14,52 @@ var router = new Router({
 			name:"home",
 			component:() =>import ('@/view/home'),
 			meta:{
-				title:'首页',
+				title:'摇号查询',
 				keepAlive:false
 			}			
 		},
+		{
+			path:'/testHome',
+			name:"testHome",
+			component:() =>import ('@/view/testHome'),
+			meta:{
+				title:'测试首页',
+				keepAlive:false
+			}			
+		},		
 		{
 			path:'/other',
 			name:"other",
 			component:() =>import ('@/view/other'),
 			meta:{
 				title:'其他页',
+				keepAlive:false
+			}			
+		},
+		{
+			path:'/testSlot',
+			name:"testSlot",
+			component:() =>import ('@/view/testSlot'),
+			meta:{
+				title:'测试Slot',
+				keepAlive:false
+			}			
+		},
+		{
+			path:'/testSlotF',
+			name:"testSlotF",
+			component:() =>import ('@/view/testSlotF'),
+			meta:{
+				title:'测试SlotF',
+				keepAlive:false
+			}			
+		},
+		{
+			path:'/score',
+			name:"score",
+			component:() =>import ('@/view/score'),
+			meta:{
+				title:'积分查询',
 				keepAlive:false
 			}			
 		},
