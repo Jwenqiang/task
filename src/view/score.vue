@@ -8,8 +8,8 @@
 			<div :class="$style.secBtom">
 				<p :class="$style.tip">提示：</p>
 				<div>
-					<p>① 家庭意指意向购房人及配偶</p>
-					<p>② 成年未婚或者离异、丧偶等情况均视为单身</p>
+					<p>① 家庭意指意向购房人及配偶；</p>
+					<p>② 成年未婚或者离异、丧偶等情况均视为单身。</p>
 				</div>
 			</div>
 		</section>
@@ -21,8 +21,8 @@
 			<div :class="$style.secBtom">
 				<p :class="$style.tip">提示：</p>
 				<div>
-					<p>① 子女情况包含家庭或单身的子女情况</p>
-					<p>② 如离异有未成年子女，需补充提供法院判决书、离婚协议等子女抚养证明文件</p>
+					<p>① 子女情况包含家庭或单身的子女情况；</p>
+					<p>② 如离异有未成年子女，需补充提供法院判决书、离婚协议等子女抚养证明文件。</p>
 				</div>
 				<nut-button shape="square" type="primary" @click="show=1">返回上一题</nut-button>
 			</div>
@@ -35,10 +35,10 @@
 			<div :class="$style.secBtom">
 				<p :class="$style.tip">提示：</p>
 				<div>
-					<p>① 住房转让记录包括买卖、赠与、互易、继承、遗赠等权利人变更记录</p>
-					<p>② 无房定义为申请家庭及其未成年子女名下查档显示无有效住房</p>
-					<p>③ 夫妻离异，追溯离异之日起3年夫妻双方及未成年子女名下查档显示无有效住房</p>
-					<p>④ 住房包括住宅、别墅、宿舍和公寓（商务公寓除外）</p>
+					<p>① 住房转让记录包括买卖、赠与、互易、继承、遗赠等权利人变更记录；</p>
+					<p>② 无房定义为申请家庭及其未成年子女名下查档显示无有效住房；</p>
+					<p>③ 夫妻离异，追溯离异之日起3年夫妻双方及未成年子女名下查档显示无有效住房；</p>
+					<p>④ 住房包括住宅、别墅、宿舍和公寓（商务公寓除外）。</p>
 				</div>
 				<nut-button shape="square" type="primary" @click="show=2">返回上一题</nut-button>
 			</div>
@@ -46,8 +46,8 @@
 		<section :class="show==4?$style.on:''">
 			<div :class="$style.title">4.您的社保缴纳情况</div>
 				<div :class="$style.sContent">
-					<p><strong>•</strong>楼盘社保月度计算系数默认0.1，常量</p>
-					<p><strong>•</strong>社保或个税缴纳月数（认购为家庭单位，计算夫妻双方缴纳总月数）输入框（区间为[0-480]）</p>
+					<p><strong>•</strong>社保或个税缴纳月数，计算系数为0.1/月</p>
+					<p><strong>•</strong>社保或个税缴纳月数（认购为家庭单位，计算夫妻双方缴纳总月数）输入框（区间为【0-480】）</p>
 					<p><input type="number" placeholder="请输入缴纳总月数" :class="$style.myMonth" maxlength="3" v-model="myMonth"/></p>
 					<p style="text-align: center;">
 						<nut-button shape="square" type="primary" @click="submit()">立即查询</nut-button>
@@ -56,11 +56,11 @@
 			<div :class="$style.secBtom">
 				<p :class="$style.tip">提示：</p>
 				<div>
-					<p>① 每人社保累计时间最长不超过20年（家庭需夫妻双方均有购房资格才能累加）</p>
-					<p>② 在深服役过的军人的在深服役时间视同在深圳社保（或个税）缴纳时间</p>
-					<p>③ 政府机关、事业单位编制人员缴纳的医疗保险视同申报缴纳时间</p>
-					<p>④ 港澳台、外籍人士以在深缴纳中华人民共和国个人所得税记录视同社保缴纳时间</p>
-					<p>⑤ 不同类型缴纳记录不可互为补充或累加</p>
+					<p>① 每人社保累计时间最长不超过20年(家庭需夫妻双方均有购房资格才能累加)；</p>
+					<p>② 在深服役过的军人，在深服役时间视同在深社保(或个税)缴纳时间；</p>
+					<p>③ 政府机关、事业单位编制人员缴纳的医疗保险视同社保缴纳时间；</p>
+					<p>④ 港澳台、外籍人士以在深缴纳中华人民共和国个人所得税记录视同社保缴纳时间；</p>
+					<p>⑤ 不同类型缴纳记录，不可互为补充或累加。</p>
 				</div>
 			</div>
 		</section>
@@ -75,10 +75,10 @@
 						<label>{{user.EmpName}}</label>
 					</div>
 					<div :class="$style.btn">
-						<a :href="'tel:'+user.EmpCallNo">
+						<a :href="'tel:'+Mobile">
 							打电话
 						</a>
-						<a @click="setWl(user.EnmpNo)">微聊</a>
+						<a @click="setWl(user.EnmpNo)" v-if="inApp">微聊</a>
 					</div>
 				</div>
 				<div :class="$style.ewm">
@@ -100,10 +100,10 @@
 <script>
 	var shareLink = window.location.href;
 	var shareObj = { //微信链接分享
-		title: "最新积分查询出炉！",
-		desc: '点击立即查询→',
+		title: "打新必看！深圳最新积分规则",
+		desc: '一键测试',
 		link: shareLink,
-		imgUrl: "https://sz.centanet.com/partner/house/shareImg/yhcx.jpg",
+		imgUrl: "https://sz.centanet.com/partner/house/shareImg/share-score.png",
 	};	
 	// import { createApp } from 'vue';
 	// // vue
@@ -111,6 +111,7 @@
 	// const app = createApp();
 	// app.use(Input);
 	var URL="https://sz.centanet.com/partner/actapi/"
+	var URL1 = 'https://sz.centanet.com/partner/jifen/';
 	var u = navigator.userAgent;
 	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器 
 	var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
@@ -127,27 +128,29 @@
 				show:1,
 				list:{
 					one:[
-						{id:1,val:"全深籍家庭（夫妻双方均为深籍）",score:10},
-						{id:2,val:"单方深籍家庭（夫妻仅一方为深籍）",score:5},
-						{id:3,val:"深籍单身",score:5},
-						{id:4,val:"非深籍家庭、单身",score:2}
+						{id:1,val:"夫妻双方均为深户",score:10},
+						{id:2,val:"夫妻双方仅一方为深户",score:5},
+						{id:3,val:"深户单身",score:5},
+						{id:4,val:"非深户家庭/单身",score:2}
 					],
 					two:[
 						{id:1,val:"有",score:5},
 						{id:2,val:"无",score:0},
 					],
 					three:[
-						{id:1,val:"现无房且10年（含）内无住房转让记录",score:40},
-						{id:2,val:"现无房但5年（含）到10年内有住房转让记录",score:30},
-						{id:3,val:"现无房但2年（含）到5年内有住房转让记录",score:20},
-						{id:4,val:"现无房但2年内有住房转让记录",score:10},
-						{id:5,val:"已拥有深圳住房",score:0},
+						{id:1,val:"现名下无房，且10年内(含10年)在深无住房转让记录",score:40},
+						{id:2,val:"现名下无房，且5-10年内(含5年)在深有住房转让记录",score:30},
+						{id:3,val:"现名下无房，且2-5年内(含2年)在深有住房转让记录",score:20},
+						{id:4,val:"现名下无房，2内在深有住房转让记录",score:10},
+						{id:5,val:"在深拥有一套及以上住房",score:0},
 					],
 				},
 				scoreList:[],
 				myMonth:"",
 				allCount:"",
-				user:""
+				user:"",
+				inApp:false,
+				Mobile:""
 			}
 		},
 		computed:{
@@ -157,6 +160,14 @@
 		},
 		created() {
 			// this.$toast.loading();
+			if(navigator.userAgent.indexOf('salehouse-webview') > -1){
+				this.inApp=true
+			}
+			var wx = navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1;//获取判断用的对象
+			if (wx) {
+				//在微信中打开
+				this.setShare();
+			}
 			this.getData();
 		},
 		mounted() {
@@ -245,10 +256,36 @@
 							console.log(res)
 							if(res.data.IsSuccess){
 								this.user=res.data.Src;
+								this.getCall(res.data.Src.EnmpNo)
 							}
 							setTimeout(()=>{
 								this.$toast.loading().hide();
 							},500)
+						})
+						.catch(error=>{
+							this.$toast.loading().hide();
+							this.$toast.text("网络错误，请稍后再试");
+						})
+				})
+			},
+			getCall(empNo) {
+				return new Promise((resolve)=>{
+						this.$axios({
+							method:"get",
+							url:`${URL1}topic/getempcall`,
+							params:{
+								empNo:'103524',
+								msg:"积分测算",
+								code:"",
+								type:1,
+								sem:this.$route.query.sem||'',
+								hmpl:this.$route.query.hmpl||''
+							}
+						})
+						.then(res=>{
+							resolve(res);
+							console.log(res)
+								this.Mobile=res.data.data.Mobile;
 						})
 						.catch(error=>{
 							this.$toast.loading().hide();
@@ -414,6 +451,7 @@
 			margin-top: 0.4rem;
 			border-radius: 0.1rem;
 			margin-bottom: 0.3rem;
+			text-align:justify;
 			p{
 				margin-bottom: 0.2rem;
 				font-size: 0.36rem;
@@ -504,6 +542,7 @@
 						border-radius: 50%;
 					}
 					label{
+						padding-left: 0.1rem;
 						display: inline-block;
 						line-height: 0.8rem;
 						color: #666;
@@ -516,6 +555,7 @@
 				.btn{
 					flex: 1;
 					display: flex;
+					justify-content: flex-end;
 					a{
 						width: 1.4rem;
 						height: 0.72rem;
@@ -527,7 +567,7 @@
 						color: #fff;
 						font-size: 0.34rem;
 						border-radius: 0.06rem;
-						&:last-child{
+						&:nth-of-type(2){
 							background: linear-gradient(135deg, #FB6F52 0%, #F3240A 100%);
 						}
 					}

@@ -47,6 +47,7 @@
 				</div>
 			</div>
 		</div>
+		
 	</div>
 </template>
 
@@ -67,7 +68,8 @@
 				tx:"",
 				info:"",
 				topNum:"",
-				ready:false
+				ready:false,
+				exportName:""
 			}
 		},
 		computed:{

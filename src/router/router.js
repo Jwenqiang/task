@@ -59,7 +59,25 @@ var router = new Router({
 			name:"score",
 			component:() =>import ('@/view/score'),
 			meta:{
-				title:'积分查询',
+				title:'积分测算',
+				keepAlive:false
+			}			
+		},
+		{
+			path:'/egg',
+			name:"egg",
+			component:() =>import ('@/view/egg'),
+			meta:{
+				title:'砸金蛋',
+				keepAlive:false
+			}			
+		},
+		{
+			path:'/zjd',
+			name:"zjd",
+			component:() =>import ('@/view/zjd'),
+			meta:{
+				title:'砸金蛋1',
 				keepAlive:false
 			}			
 		},
