@@ -78,7 +78,7 @@
 						<a :href="'tel:'+Mobile">
 							打电话
 						</a>
-						<a @click="setWl(user.EnmpNo)" v-if="inApp">微聊</a>
+						<a @click="setWl(user.EmpNo)" v-if="inApp">微聊</a>
 					</div>
 				</div>
 				<div :class="$style.ewm">
@@ -255,8 +255,8 @@
 							resolve(res);
 							console.log(res)
 							if(res.data.IsSuccess){
-								this.user=res.data.Src;
-								this.getCall(res.data.Src.EnmpNo)
+								this.user=res.data.Src[0];
+								this.getCall(res.data.Src[0].EmpNo)
 							}
 							setTimeout(()=>{
 								this.$toast.loading().hide();
@@ -268,13 +268,13 @@
 						})
 				})
 			},
-			getCall(empNo) {
+			getCall(gh) {
 				return new Promise((resolve)=>{
 						this.$axios({
 							method:"get",
 							url:`${URL1}topic/getempcall`,
 							params:{
-								empNo:'103524',
+								empNo:gh,
 								msg:"积分测算",
 								code:"",
 								type:1,
@@ -351,6 +351,7 @@
 					"cityCode": "0755",
 					"message": "您好，想了解更多关于深圳积分的规则"
 				})
+				console.log(msg)
 				var point={
 					 "isStaff400": false,
 					 "eventId": "conversion",

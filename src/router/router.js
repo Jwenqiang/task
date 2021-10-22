@@ -8,7 +8,7 @@ const LOGIN_PAGE_NAME = "login";
 var router = new Router({
 	mode:"hash",
 	routes:[
-		{path:'/',redirect:'/Home'},
+		{path:'/',redirect:'/Activity'},
 		{
 			path:'/Home',
 			name:"home",
@@ -88,6 +88,33 @@ var router = new Router({
 			meta:{
 				title:'账号异常',
 				keepAlive:true
+			}			
+		},
+		{
+			path:'/Activity',
+			name:"activity",
+			component:() =>import ('@/view/activity'),
+			meta:{
+				title:'活动',
+				keepAlive:false
+			}			
+		},
+		{
+			path:'/help',
+			name:"help",
+			component:() =>import ('@/view/help'),
+			meta:{
+				title:'帮好友助力',
+				keepAlive:false
+			}			
+		},
+		{
+			path:'/testMini',
+			name:"testMini",
+			component:() =>import ('@/view/testMini'),
+			meta:{
+				title:'h5调起小程序',
+				keepAlive:false
 			}			
 		}
 	]

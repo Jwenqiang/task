@@ -7,6 +7,7 @@ const port = 8888; // dev port
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
 	publicPath: process.env.NODE_ENV === "production" ? "./" : "/",
+	productionSourceMap:false,
     css: {
       requireModuleExtension: true,
       loaderOptions: {

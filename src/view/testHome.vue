@@ -6,7 +6,7 @@
 		<button @click="subMutations(2)">异步加2</button>
 		<button @click="send">去另一页{{$store.state.count}}</button>
 		<div :class="$style.red">红色</div>
-		<div class="box">橙色</div>
+		<div class="box">首页</div>
 		<div :class="$style.orange">橙色</div>
 		<div :class="$style.yellow">黄色</div>
 		<div class="blue">蓝色</div>
@@ -39,8 +39,26 @@
 	import testSlot from './testSlot'
 	
 	import  {mapState, mapMutations, mapActions, mapGetters} from 'vuex'
+	// minxins与vuex的区别
+	
+	// 经过上面的例子之后，他们之间的区别应该很明显了哈~
+	
+	// vuex：用来做状态管理的，里面定义的变量在每个组件中均可以使用和修改，在任一组件中修改此变量的值之后，其他组件中此变量的值也会随之修改。
+	
+	// Mixins：可以定义共用的变量，在每个组件中使用，引入组件中之后，各个变量是相互独立的，值的修改在组件中不会相互影响。
+	
+	// 与公共组件的区别
+	
+	// 同样明显的区别来再列一遍哈~
+	
+	// 组件：在父组件中引入组件，相当于在父组件中给出一片独立的空间供子组件使用，然后根据props来传值，但本质上两者是相对独立的。
+	
+	// Mixins：则是在引入组件之后与组件中的对象和方法进行合并，相当于扩展了父组件的对象与方法，可以理解为形成了一个新的组件。
+	// 混入
+	import {myMinxin} from "@/assets/mixins/minxins.js";
 	export default{
 		name: 'testHome',
+		mixins:[myMinxin],//值为函数的选项，如created,mounted等，就会被合并调用，混合对象里的钩子函数在组件里的钩子函数之前调用
 		data(){
 			return{
 				url:"http://www.baidu.com",
@@ -49,7 +67,7 @@
 					url: 'http://www.baidu.com',
 					icon: '随便一张图片的地址也行'
 				},
-				num:""
+				num:"555"//这个会替代混合对象中的num
 			}
 		},
 		components: {
@@ -62,6 +80,8 @@
 			created() {
 				console.log('首页')
 				console.log(this.count);
+				console.log("组件的num："+this.num);//混入有对象有个num+1操作  所以这里输出5551 如果当前组件没有num则输出2
+				this.hello("我传值给minxins");
 				// document.getElementById('file').addEventListener('change', function (event) {
 				//   console.log(event.target.files[0])
 				//   this.imageCompress(event.target.files[0]).then(blob => {
@@ -267,13 +287,14 @@
 </script>
 
 <style lang="less" module>
+	@import "@/assets/css/test.less";
 	@color:#ff0000;
 	.pray{color: #A3866C;font-size: 50px;}
-	.orange :extend(.pray) {font-size: 18px;}
+	.orange :extend(.pray) {font-size: 18px;color: @orange1;}
 	.red{color: @color;}
 	.yellow{color: @color}
 	:global(.blue){color: blue;}
 </style>
 <style lang="less">
-	@import "@/assets/css/test.less";
+	
 </style>
