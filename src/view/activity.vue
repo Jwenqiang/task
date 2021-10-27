@@ -1,6 +1,6 @@
 <template>
 	<div class="activity">
-		<p>中原找房金秋购房季</p>
+		<h3>测试活动首页</h3>
 		<p><button @click="share" style="width: 100px;height: 40px;background-color: #F06431;">点击分享</button></buttom>
 		</p>
 		<p>分享回调接收到的值：{{test}}</p>
