@@ -195,7 +195,7 @@
 				this.jumpHelp();
 			}
 			window.observeUserInfo = this.observeUserInfo;
-			window.shareWechatType = this.shareWechatType;
+			window.shareWechatType = this.shareWechatType;//分享成功回调
 			this.initSwiper();
 			this.getHouse();
 			this.getNewHouse();

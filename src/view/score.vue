@@ -75,7 +75,7 @@
 						<label>{{user.EmpName}}</label>
 					</div>
 					<div :class="$style.btn">
-						<a :href="'tel:'+Mobile">
+						<a :href="'tel:'+Mobile" @click="setSc('打电话')">
 							打电话
 						</a>
 						<a @click="setWl(user.EmpNo)" v-if="inApp">微聊</a>
@@ -175,6 +175,18 @@
 		beforeDestroy() {
 		},
 		methods:{
+			// 神策电话埋点
+			setSc(name){
+				this.$sensors.track('sc_click_call', {
+					sc_business_type:"other",
+					sc_button_name:name,
+					sc_click_page:"首页_新房_算积分",
+					sc_house_id:"",
+					sc_house_name:"",
+					sc_click_area:"",
+					sc_button_position:""
+				});
+			},
 			// 微信分享
 			setShare(){//
 					this.$axios({
@@ -253,7 +265,6 @@
 						})
 						.then(res=>{
 							resolve(res);
-							console.log(res)
 							if(res.data.IsSuccess){
 								this.user=res.data.Src[0];
 								this.getCall(res.data.Src[0].EmpNo)
@@ -284,7 +295,6 @@
 						})
 						.then(res=>{
 							resolve(res);
-							console.log(res)
 								this.Mobile=res.data.data.Mobile;
 						})
 						.catch(error=>{
@@ -325,7 +335,6 @@
 						})
 						.then(res=>{
 							resolve(res);
-							console.log(res);
 							if(res.data.IsSuccess){
 								this.show=5;
 							}
@@ -346,6 +355,25 @@
 				this.show=1;
 			},
 			setWl(gh){
+				// 神策
+				this.$sensors.track('sc_click_wechat', {
+					sc_business_type: "other", 
+					sc_click_page: "首页_新房_算积分", 
+					sc_house_id:"",
+					sc_house_name:"",
+					sc_button_position:'',
+					sc_button_name:'微聊',
+					sc_click_area:""
+				});
+				// 神策
+				this.$sensors.track('sc_enter_wechat', {
+					sc_business_type: "other", 
+					sc_house_id:"",
+					sc_house_name:"",
+					sc_broker_name:this.user.EmpName,
+					sc_broker_id:gh
+				});
+				
 				var msg = JSON.stringify({
 					"staffNo": gh,
 					"cityCode": "0755",
@@ -504,7 +532,7 @@
 				background-size: 5.6rem;
 				font-size: 0.36rem;
 			}
-			@keyframes fadeLeft{
+			@keyframes fadeBig{
 				from{transform: scale(0);}
 				to{transform: scale(1);opacity: 1;}
 			}
@@ -617,7 +645,7 @@
 	}
 	section.on{
 		display: block;
-		animation: fadeLeft 0.5s ease 1 forwards;
+		animation: fadeBig 0.5s ease 1 forwards;
 	}
 	.bj{
 		position: absolute;

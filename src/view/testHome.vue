@@ -1,3 +1,5 @@
+
+<!-- 测试组件 混入 生成二维码 -->
 <template>
 	<div>
 	<div :class="$style.red">
@@ -29,6 +31,7 @@
 	    <p>Here's some contact info</p>
 	  </template>
 	</test-slot>
+<!-- 	<hd :hData="444444444"><template v-slot:i>888</template>55</hd> -->
 	</div>
 </template>
 
@@ -37,8 +40,12 @@
 	import QRCode from 'qrcodejs2'//第一种绘制
 	import vueQr from 'vue-qr'//第二种绘制  可以加logo
 	import testSlot from './testSlot'
+	import {getQuerys} from '../global/sem.js'
+	import hd from '../components/headers.vue'
 	
 	import  {mapState, mapMutations, mapActions, mapGetters} from 'vuex'
+	
+	
 	// minxins与vuex的区别
 	
 	// 经过上面的例子之后，他们之间的区别应该很明显了哈~
@@ -72,13 +79,17 @@
 		},
 		components: {
 		      vueQr,
-			  testSlot
+			  testSlot,
+				hd
 		    },
 			computed:{
 				...mapState(['count','hasLogin'])
 			},
 			created() {
-				console.log('首页')
+				// 渠道  不区分大小写
+				const { channel_utm_source,channel_utm_medium, sem, hmpl, FirstQudao } = getQuerys(this.$route.query, ['sem', 'hmpl', 'FirstQudao', 'channel_utm_source','channel_utm_medium']);
+				console.log(channel_utm_source+channel_utm_medium)
+				
 				console.log(this.count);
 				console.log("组件的num："+this.num);//混入有对象有个num+1操作  所以这里输出5551 如果当前组件没有num则输出2
 				this.hello("我传值给minxins");

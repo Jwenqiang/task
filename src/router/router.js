@@ -8,7 +8,7 @@ const LOGIN_PAGE_NAME = "login";
 var router = new Router({
 	mode:"hash",
 	routes:[
-		{path:'/',redirect:'/Activity'},
+		{path:'/',redirect:'/year'},
 		{
 			path:'/Home',
 			name:"home",
@@ -116,7 +116,25 @@ var router = new Router({
 				title:'h5调起小程序',
 				keepAlive:false
 			}			
-		}
+		},
+		{
+			path:'/year',
+			name:"year",
+			component:() =>import ('@/view/year'),
+			meta:{
+				title:'经纪人年终回顾',
+				keepAlive:false
+			}			
+		},
+		{
+			path:'/year/:id',
+			name:"year",
+			component:() =>import ('@/view/year'),
+			meta:{
+				title:'经纪人年终回顾',
+				keepAlive:false
+			}			
+		},
 	]
 })
 var u = navigator.userAgent
