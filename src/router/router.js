@@ -122,19 +122,10 @@ var router = new Router({
 			name:"year",
 			component:() =>import ('@/view/year'),
 			meta:{
-				title:'经纪人年终回顾',
+				title:'多少次努力光顾过你的2021',
 				keepAlive:false
 			}			
-		},
-		{
-			path:'/year/:id',
-			name:"year",
-			component:() =>import ('@/view/year'),
-			meta:{
-				title:'经纪人年终回顾',
-				keepAlive:false
-			}			
-		},
+		}
 	]
 })
 var u = navigator.userAgent

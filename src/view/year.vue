@@ -1,8 +1,8 @@
 <template>
 	<div class="container">
-		<audio controls="controls" loop="loop" preload="preload" src="images/m.mp3" ref="music" hidden></audio>
-		<audio controls="controls" loop="loop" preload="preload" src="images/nj.mp3" ref="music1" hidden></audio>
-		<audio controls="controls" loop="loop" preload="preload" src="images/leisheng.mp3" ref="music2" hidden></audio>
+		<audio controls="controls" loop="loop" preload="preload" src="images/m.mp3" ref="music" id="music" hidden></audio>
+		<audio controls="controls" loop="loop" preload="preload" src="images/nj.mp3" ref="music1" id="music1" hidden></audio>
+		<audio controls="controls" loop="loop" preload="preload" src="images/leisheng.mp3" ref="music2" id="music2" hidden></audio>
 		<template v-if="ready">
 			<nut-popup v-model="showLogin" :close-on-click-overlay="false">
 				<div class="lgBox">
@@ -21,10 +21,10 @@
 				<!-- <b>{{loadNum}}%</b> -->
 			</div>
 		</div>
-		<span id="music" :class="{'animatedR':roleM}" @click="bfPlay()" v-show="!showTip"></span>
+		<span id="icon-music" :class="{'animatedR':roleM}" @click="bfPlay()" v-show="!showTip"></span>
 		<full-page :options="options" ref="fullpage" v-show="ready">
 			<div class="section">
-				<div class="slide page0">
+				<div class="slide page0" @touchstart="start()">
 					<div class="content">
 						<div class="title">
 						</div>
@@ -38,7 +38,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="slide page1" @click="njPlay">
+				<div class="slide page1" @touchstart="njEnd()">
 					<div class="content">
 						<div class="man" :class="{'go':go}" @click="goNext1" v-if="my.Sex=='男'"></div>
 						<div class="woman" :class="{'go':go}" @click="goNext1" v-else></div>
@@ -49,18 +49,19 @@
 						<div class="p1-y3"></div>
 						<div class="mtext p1-text" v-if="!isPP">
 							<p><span>{{my.InCompanyDateStr}}</span>，</p>
-							<p>这是你加入中原的日子，</p>
-							<p>此刻请用30秒去定格关于它的记忆。</p>
+							<p>这是<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>加入中原的日子，</p>
+							<p>此刻请用30秒去定格，</p>
+							<p>关于它的记忆。</p>
 						</div>
 						<div class="mtext p1-text" v-else>
 							<p>在<span>{{my.InCompanyDateStr}}</span> ，</p>
-							<p>你成为了中原的一份子。</p>
+							<p><span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>成为了中原的一份子。</p>
 						</div>
 						<!-- 						<div class="p1-nj1"></div>
 						<div class="p1-nj2"></div> -->
 					</div>
 				</div>
-				<div class="slide page2" @touchstart="njEnd">
+				<div class="slide page2">
 					<div class="content">
 						<div class="p2-ty">
 						</div>
@@ -69,9 +70,9 @@
 						<div class="p2-y3"></div>
 						<div class="p2-text">
 							<p>让亲情更近，是爱的戏法。</p>
-							<p>也是你的追求。</p>
+							<p>也是<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>的追求。</p>
 							<p>肩负着“新一代”深圳人的购房梦想，</p>
-							<p>你的“星级”置业服务从此启航。</p>
+							<p><span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>的“星级”置业服务从此启航。</p>
 						</div>
 						<div class="p2-phone">
 							<div style="width: 100%;height: 100%;overflow: hidden;">
@@ -86,7 +87,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="slide page3" @touchstart="lsEnd">
+				<div class="slide page3">
 					<div class="content">
 						<div class="p3-ty">
 						</div>
@@ -94,10 +95,11 @@
 						<div class="p3-y2"></div>
 						<div class="p3-y3"></div>
 						<div class="p3-text">
-							<p>今年你接待了<span>{{my.CustomerCount}}</span>个线上客户，</p>
+							<p>今年<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>接待了<span>{{my.CustomerCount}}</span>个线上客户，</p>
 							<p>为五湖四海的人提供置业服务，</p>
-							<p>因为你知道，</p>
-							<p>每一次咨询背后都是对美好生活的向往。</p>
+							<p>因为<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>知道，</p>
+							<p>每一次咨询背后，</p>
+							<p>都是对美好生活的向往。</p>
 						</div>
 						<div class="p3-man">
 							<div class="p3-yin"></div>
@@ -114,22 +116,23 @@
 						</div>
 					</div>
 				</div>
-				<div class="slide page4" @touchstart="lsPlay()">
+				<div class="slide page4" @click="lsPlay()" @touchmove="lsEnd()">
 					<div class="content">
 						<div class="p4-yz"></div>
 						<div class="p4-text">
 							<p>在深圳2019.95平方公里的土地上，</p>
-							<p><span>{{my.SalesCount}}</span>个房源找到了它的新主人，</p>
-							<p>你替他们点亮了一盏“叫做家”的灯。</p>
+							<p v-if="my.SalesCount>0"><span v-if="my.SalesCount<80">{{my.SalesCount}}</span><span v-else>近80</span>个房源找到了它的新主人，</p>
+							<p v-else>很多个房源找到了它的新主人，</p>
+							<p><span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>替他们点亮了一盏“叫做家”的灯。</p>
 						</div>
 						<div class="p4-mtl"></div>
 						<div class="p4-lb"></div>
-						<div class="goRight man peapo" :class="goFast?'fast':'goRight'" @touchstart="gtouchstart()"
-							@touchend="gtouchend()" v-if="my.Sex=='男'">
+						<div class="goRight man peapo" @touchstart="gtouchstart()" @touchend="gtouchend()" :class="goFast?'fast':'goRight'"
+							 v-if="my.Sex=='男'">
 						</div>
-						<div class="goRight woman peapo" :class="goFast?'fast':'goRight'" @touchstart="gtouchstart()"
-							@touchend="gtouchend()" v-else></div>
-							<div class="p4-b"></div>
+						<div class="goRight woman peapo" @touchstart="gtouchstart()" @touchend="gtouchend()" :class="goFast?'fast':'goRight'"
+							 v-else></div>
+							<div class="p4-b" @touchstart="gtouchstart()" @touchend="gtouchend()"></div>
 					</div>
 				</div>
 				<div class="slide page5" @touchstart="lsEnd()">
@@ -142,13 +145,13 @@
 						<div class="p5-text">
 							<template v-if="my.SalesAmount>100000">
 								<p>说个了不起的数字，</p>
-								<p>今年你促成了<span>{{my.SalesAmount | twoFixed}}</span>万的成交额。</p>
-								<p>这绝对是一场硬仗，但你做到了。</p>
+								<p>今年<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>促成了<span>{{my.SalesAmount | twoFixed}}</span>万的成交额。</p>
+								<p>这绝对是一场硬仗，但<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>做到了。</p>
 							</template>
 							<template v-else>
 								<p>虽然今年房产市场不太好，</p>
-								<p>但是你依然促成好几笔成交，</p>
-								<p>这绝对是一场硬仗，但你做到了。</p>
+								<p>但是<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>依然促成好几笔成交，</p>
+								<p>这绝对是一场硬仗，但<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>做到了。</p>
 							</template>
 						</div>
 						<div class="p5-man">
@@ -170,15 +173,16 @@
 						<div class="p6-y2"></div>
 						<div class="p6-y3"></div>
 						<div class="p6-text">
-							<p>{{my.TakeSeeDateStr}}，深圳体感温度高达{{my.Temperature}}°，</p>
+							<p><span>{{my.TakeSeeDateStr}}</span>，</p>
+							<p>深圳体感温度高达<span>{{my.Temperature}}°</span>，</p>
 							<template v-if="my.TakeSeeEstate">
-								<p>你带着客户到<span>{{my.TakeSeeEstate}}</span>小区，</p>
+								<p><span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>带着客户到<span>{{my.TakeSeeEstate}}</span>小区，</p>
 								<p>看了个前前后后，</p>
 								<p>整个夏天流出的汗水，</p>
 								<p>浇灌深圳每一处成片的绿荫。</p>
 							</template>
 							<template v-else>
-								<p>但你依旧认真带客户看房，</p>
+								<p>但<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>依旧认真带客户看房，</p>
 								<p>真诚服务的汗水，</p>
 								<p>浇灌深圳每一处成片的绿荫。</p>
 							</template>
@@ -201,8 +205,8 @@
 						<div class="p7-text">
 							<p>关于买房有太多疑问，</p>
 							<p>但只要有问题，就会得到回答！</p>
-							<p v-if="my.BindCount>36"><span>{{my.BindCount}}</span>人因为你的专业服务，</p>
-							<p v-else>很多人因为你的专业服务</p>
+							<p v-if="my.BindCount>36"><span>{{my.BindCount}}</span>人因为<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>的专业服务，</p>
+							<p v-else>很多人因为<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>的专业服务，</p>
 							<p>买房卖房路上不踩坑。</p>
 						</div>
 						<div class="p7-man">
@@ -224,8 +228,8 @@
 						<div class="p8-y2"></div>
 						<div class="p8-y3"></div>
 						<div class="p8-text">
-							<p>在深圳，没有你不熟悉的小区，</p>
-							<p>话说，你现在是行走的GPS吧。</p>
+							<p>在深圳，没有<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>不熟悉的小区，</p>
+							<p>话说，<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>现在是行走的GPS吧。</p>
 						</div>
 						<div class="p8Map">
 							<span class="ba"><img src="images/year/ba.png" width="100%"
@@ -284,15 +288,15 @@
 						<div class="p9-y2"></div>
 						<div class="p9-y3"></div>
 						<div class="p9-text">
-							<p>2021年你最高</p>
+							<p>2021年<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>最高</p>
 							<p>一天走了<span>{{my.StepNumber}}</span>步，</p>
 							<p>全年共<span>{{my.StepNumber*360}}</span>步。</p>
 							<p>别不信！</p>
 							<p>这足以绕深圳约<span>{{my.TurnsNumber}}</span>圈。</p>
 						</div>
-						<div class="man" v-if="my.Sex=='男'">
+						<div class="man" :class="{'go':go}" @click="goNext" v-if="my.Sex=='男'">
 						</div>
-						<div class="woman" v-else></div>
+						<div class="woman" :class="{'go':go}" @click="goNext" v-else></div>
 					</div>
 				</div>
 				<div class="slide page10">
@@ -303,17 +307,16 @@
 						<div class="p10-y2"></div>
 						<div class="p10-y3"></div>
 						<div class="p10-text">
-							<p>印象最深的客户，你还记得吗？</p>
+							<p>印象最深的客户，<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>还记得吗。</p>
 							<template v-if="my.WebChatStr">
 								<p>在那天的<span>{{my.WebChatStr}}</span>时间，</p>
-								<p>你还在贴心线上服务，</p>
+								<p><span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>还在贴心线上服务，</p>
 								<p>为了他的安家梦而努力。</p>
 							</template>
 							<template v-else>
 								<p>那天的月亮都睡着了。</p>
-								<p>你还在为了他的安家梦而努力。</p>
+								<p><span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>还在为了他的安家梦而努力。</p>
 							</template>
-
 
 						</div>
 						<div class="p10-man">
@@ -334,7 +337,7 @@
 							<p>2021，该如何回顾这一年？</p>
 							<p>或许，一言「难」尽。</p>
 							<p>但因为不放弃与竭诚的努力，</p>
-							<p>今年你的能力，</p>
+							<p>今年<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>的能力，</p>
 							<p>打败了中原<span>{{my.EmpRateStr}}%</span>的经纪人。</p>
 						</div>
 						<div class="p11-man" v-if="my.Sex=='男'">
@@ -354,8 +357,8 @@
 						<div class="p12-title">
 						</div>
 						<div class="p12-flag">
-							<label class="flg1" :class="flag==1?'on':''" @click="setFlag(1,'做值得信赖的中原人')">
-								<span>做值得信赖的中原人</span>
+							<label class="flg1" :class="flag==1?'on':''" @click="setFlag(1,'做2022开单王')">
+								<span>做2022开单王</span>
 							</label>
 							<label class="flg2" :class="flag==2?'on':''" @click="setFlag(2,'管住嘴迈开腿，腹肌1变8')">
 								<span>管住嘴迈开腿，腹肌1变8</span>
@@ -366,8 +369,8 @@
 							<label class="flg4" :class="flag==4?'on':''" @click="setFlag(4,'在深圳立足，把父母接过来')">
 								<span>在深圳立足，把父母接过来</span>
 							</label>
-							<label class="flg5" :class="flag==5?'on':''" @click="setFlag(5,'做2022开单王')">
-								<span>做2022开单王</span>
+							<label class="flg5" :class="flag==5?'on':''" @click="setFlag(5,'做值得信赖的中原人')">
+								<span>做值得信赖的中原人</span>
 							</label>
 							<label class="flg6" :class="flag==6?'on':''" @click="setFlag(6,'多陪父母家人，常回家看看')">
 								<span>多陪父母家人，常回家看看</span>
@@ -378,13 +381,13 @@
 							<label class="flg8" :class="flag==8?'on':''" @click="setFlag(8,'努力挣钱，买部喜欢的车')">
 								<span>努力挣钱，买部喜欢的车</span>
 							</label>
-							<label class="flg9" :class="flag==9?'on':''" @click="setFlag(9,'小目标瘦五斤，运动走起')">
+<!-- 							<label class="flg9" :class="flag==9?'on':''" @click="setFlag(9,'小目标瘦五斤，运动走起')">
 								<span>小目标瘦五斤，运动走起</span>
-							</label>
+							</label> -->
 						</div>
-						<div class="man" v-if="my.Sex=='男'">
+						<div class="man" :class="{'go':go}" @click="goNext" v-if="my.Sex=='男'">
 						</div>
-						<div class="woman" v-else>
+						<div class="woman" :class="{'go':go}" @click="goNext" v-else>
 						</div>
 						<!-- 						<div class="p12-btn">
 							点击Flag生成海报
@@ -401,7 +404,6 @@
 							<img src="images/year/canvas.jpg" width="100%" id="scream" style="display: none;"
 								crossOrigin='anonymous' />
 							<img :src="tx" id="tx" style="display: none;" crossOrigin='anonymous' v-if="tx" />
-							<img src="images/year/txNone.jpg" id="tx" style="display: none;" v-else />
 							<vue-qr :text="downloadData.url" :margin="0" colorDark="#000" colorLight="#fff"
 								:logoSrc="imageUrl" :logoScale="0.2" :size="220" ref="Qrcode" style="display: none;">
 							</vue-qr>
@@ -440,10 +442,10 @@
 	var shareLink = window.location.href;
 	console.log(shareLink)
 	var shareObj = { //微信链接分享
-		title: "经纪人年终大秀",
-		desc: '经纪人年终大秀',
+		title: "多少次努力光顾过你的2021",
+		desc: '这里有你的2021大事记',
 		link: shareLink,
-		imgUrl: "https://sz.centanet.com/partner/house/shareImg/share-score.png",
+		imgUrl: "https://sz.centanet.com/partner/house/shareImg/year1.png",
 	};
 	import Vue from 'vue';
 	// import { load, updateConfig } from './wx'
@@ -463,13 +465,13 @@
 					//横向slide幻灯片是否循环滚动
 					loopHorizontal: false,
 					//是否使用css3 transform来实现滚动效果
-					css3: true,
+					// css3: true,
 					//是否显示两侧的箭头
 					controlArrows: false,
 					//是否循环滚动，不会出现跳动，效果很平滑
-					continuousVertical: true,
+					continuousVertical: false,
 					//是否使用插件滚动方式，设为false后，会出现浏览器自带的滚动条，将不会按页滚动
-					autoScrolling: true,
+					// autoScrolling: true,
 					//是否包含滚动条，设为true，则浏览器自带的滚动条会出现，页面还是按页滚动，但是浏览器滚动条默认行为也有效
 					// scrollBar: true,
 					//定义锚链接，用户可以快速打开定位到某一页面；不需要加"#"，不要和页面中任意的id和name相同
@@ -484,7 +486,7 @@
 				loadNum: 0,
 				ready: false,
 				qy: "",
-				flag: "",
+				flag: 5,
 				flagText: "做值得信赖的中原人",
 				showTip: false,
 				routerNum: "",
@@ -503,7 +505,8 @@
 					url: 'http://www.baidu.com',
 					icon: '随便一张图片的地址也行'
 				},
-				hbUrl: ""
+				hbUrl: "",
+				isHe:false
 			}
 		},
 		components: {
@@ -517,13 +520,22 @@
 				let num = n / 10000;
 				num = num.toFixed(2);
 				return num;
+			},
+			changeName(n){
+				var niki=n.substring(n.length-2);
+				return niki;
 			}
 		},
 		created() {
 			this.readyLoad();
 
 			if (this.$route.query.empNo && this.$route.query.empName) {
+				this.isHe=true;
 				this.loginGo(this.$route.query.empNo, decodeURIComponent(this.$route.query.empName));
+			}
+			if(sessionStorage.getItem('name')){
+				this.name=sessionStorage.getItem('name');
+				this.empNo=sessionStorage.getItem('empNo');
 			}
 		},
 		mounted() {
@@ -533,6 +545,7 @@
 				this.setShare();
 				// this.initWeChat();
 			}
+			
 		},
 		methods: {
 			async initWeChat() {
@@ -645,7 +658,11 @@
 				ctx.font = "24px PingFangSC-Regular";
 				ctx.fillStyle = "#fff";
 				ctx.fillText(`我在中原找房App共接待${this.my.CustomerCount}位客户`, 131, 685);
-				ctx.fillText(`我帮${this.my.SalesCount}位新深圳人，实现安家梦`, 131, 728);
+				if(this.my.SalesCount>0){
+					ctx.fillText(`我帮${this.my.SalesCount}位新深圳人，实现安家梦`, 131, 728);
+				}else{
+					ctx.fillText(`我肩负着每一位新深圳人的安家梦`, 131, 728);
+				}
 				ctx.fillText(`我全年共走了${this.my.StepNumber*360}步，足以绕深圳${this.my.TurnsNumber}圈`, 131, 768);
 				ctx.fillText(`......`, 131, 794);
 				// 
@@ -661,12 +678,12 @@
 				ctx.fillStyle = "rgba(231, 21, 51, 1)";
 				ctx.fillText(`优秀的你打败了中原`, 109, 854);
 				ctx.fillText('%的经纪人', 491, 852);
-				ctx.font = "bold 40px PingFangSC-Regular";
+				ctx.font = "bold 42px PingFangSC-Regular";
 				ctx.fillStyle = "rgba(231, 21, 51, 1)";
-				ctx.fillText(`${this.my.EmpRate}`, 402, 856);
+				ctx.fillText(`${this.my.EmpRateStr}`, 402, 856);
 				ctx.font = "30px SourceHanSansCN-Regular";
 				ctx.fillStyle = "#fff";
-				ctx.fillText(`2022年flag：${this.flagText}`, 115, 1188);
+				ctx.fillText(`2022年Flag：${this.flagText}`, 115, 1188);
 				// 画头像
 				ctx.drawImage(tx, 98, 924, 126, 172);
 
@@ -682,7 +699,7 @@
 			setShare() { //
 				this.$axios({
 						method: "get",
-						url: "https://m.sz.centanet.com/partner/weixin/jssdkjsonp?url=" + encodeURIComponent(location.href.split("#")[0])
+						url: "https://m.sz.centanet.com/partner/weixin/jssdkjsonp?url=" + encodeURIComponent(location.href)
 					})
 					.then(res => {
 						let data = JSON.parse(res.data.replace('(', '').replace(')', ''));
@@ -764,6 +781,93 @@
 						}
 					})
 			},
+			// 微信分享带信息
+			setShareMsg() { //
+				this.$axios({
+						method: "get",
+						url: "https://m.sz.centanet.com/partner/weixin/jssdkjsonp?url=" + encodeURIComponent(location.href)
+					})
+					.then(res => {
+						let data = JSON.parse(res.data.replace('(', '').replace(')', ''));
+						console.log(data)
+						if (data) {
+							wx.config({
+								debug: false,
+								appId: data.AppId,
+								timestamp: data.Timestamp,
+								nonceStr: data.NonceStr,
+								signature: data.Signature,
+								jsApiList: [
+									'onMenuShareTimeline',
+									'onMenuShareAppMessage',
+									'updateAppMessageShareData',
+									'updateTimelineShareData'
+								]
+							});
+							wx.ready(function() {
+								console.log('分享1', shareObj)
+								console.log(`传参empName=${this.my.EmpName}&empNo=${this.my.EmpNo}`);
+								wx.onMenuShareTimeline({
+									title: shareObj.title,
+									desc: shareObj.desc,
+									link: location.href+`?empName=${this.my.EmpName}&empNo=${this.my.EmpNo}`,
+									imgUrl: shareObj.imgUrl,
+									success: function(s) {
+										console.log("正确1", s)
+										// 设置成功
+									},
+									fail: (e) => {
+										console.log("错误1", e)
+									}
+								})
+								wx.onMenuShareAppMessage({
+									title: shareObj.title,
+									desc: shareObj.desc,
+									link: location.href+`?empName=${this.my.EmpName}&empNo=${this.my.EmpNo}`,
+									imgUrl: shareObj.imgUrl,
+									success: function(s) {
+										console.log("正确2", s)
+										// 设置成功
+									},
+									fail: (e) => {
+										console.log("错误2", e)
+									}
+								})
+								//分享好友
+								wx.updateAppMessageShareData({
+									title: shareObj.title,
+									desc: shareObj.desc,
+									link: location.href+`?empName=${this.my.EmpName}&empNo=${this.my.EmpNo}`,
+									imgUrl: shareObj.imgUrl,
+									success: function(s) {
+										console.log("正确", s)
+										// 设置成功
+									},
+									fail: (e) => {
+										console.log("错误", e)
+									}
+								});
+								//分享朋友圈
+						  wx.updateTimelineShareData({
+									title: shareObj.title,
+									desc: shareObj.desc,
+									link: location.href+`?empName=${this.my.EmpName}&empNo=${this.my.EmpNo}`,
+									imgUrl: shareObj.imgUrl,
+									success: function(s) {
+										console.log("正确", s)
+										// 设置成功
+									},
+									fail: (e) => {
+										console.log("错误", e)
+									}
+								});
+							});
+							wx.error(function(res) {
+								console.log(res)
+							});
+						}
+					})
+			},
 			loginGo(gh, name) {
 				if (!gh) {
 					if (this.name == "") {
@@ -785,30 +889,30 @@
 					.then(res => {
 						console.log(res);
 						if (res.data.IsSuccess) {
-							var myGh = "",
-								myName = '';
-							if (gh) {
-								myGh = gh;
-								myName = name
-							} else {
-								myGh = this.empNo;
-								myName = encodeURIComponent(this.name);
-							}
-							console.log(myName)
 							this.showLogin = false;
 							this.downloadData.url =
-								`https://sz.centanet.com/partner/house/app/year/#/year?empName=${myName}&empNo=${myGh}`;
+								`https://sz.centanet.com/partner/house/app/year/#/year?empName=${res.data.Src.EmpName}&empNo=${res.data.Src.EmpNo}`;
 							this.my = res.data.Src;
-							this.tx = "https://pic.centanet.com/shenzhen/pic/agent/" + res.data.Src.EmpNo + ".jpg"
-							this.qy = res.data.Src.RegionCode;
+							this.tx = res.data.Src.HeaderImage;
+							if(res.data.Src.RegionCode){
+								this.qy = res.data.Src.RegionCode;
+							}
 							if (res.data.Src.EmpNo.length > 6) {
 								this.isPP = true;
 							}
+							sessionStorage.setItem("name",res.data.Src.EmpName);
+							sessionStorage.setItem("empNo",res.data.Src.EmpNo);
 							// 几秒后画海报
 							setTimeout(() => {
 								this.posterHb();
 							}, 5000)
-
+							var wx = navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1; //获取判断用的对象
+							if (wx) {
+								//在微信中打开
+								setTimeout(()=>{
+									this.setShareMsg();
+								},1000)
+							}
 						} else {
 							this.showLogin = true;
 							this.$toast.text("只面向三级经纪人同事哟~");
@@ -838,7 +942,7 @@
 								if (loaded / imgs.length > 0.9) {
 									setTimeout(() => {
 										this.ready = true;
-									}, 500)
+									}, 1000)
 								}
 							}
 						}
@@ -877,7 +981,13 @@
 				this.posterHb();
 			},
 			goNext() {
-				this.$refs.fullpage.api.moveTo('year', 13);
+				this.go = true;
+				setTimeout(() => {
+					setTimeout(() => {
+						this.go = false;
+					}, 500)
+					this.$refs.fullpage.api.moveSlideRight();
+				}, 1200)
 			},
 			// 触摸事件开始
 			gtouchstart() {
@@ -925,20 +1035,35 @@
 				this.$refs.fullpage.api.moveSectionDown();
 			},
 			start(){
-				this.njPlay();
-				this.bfPlay();
+				setTimeout(()=>{
+					var audio = document.getElementById("music");
+					var audio1 = document.getElementById("music1");
+					audio.play();
+					audio1.play();
+					this.roleM = true;
+				},500)
 			},
 			njPlay() {
 				var audio1 = this.$refs.music1;
-				audio1.play(); // 这个就是播放
+					//paused 判断是否为暂停状态
+					if(audio1.paused){// 如果是暂停状态, 让其播放, 反之暂停
+							audio1.play();
+					}else{
+							audio1.pause();
+					}
 			},
 			njEnd() {
 				var audio1 = this.$refs.music1;
 				audio1.pause(); // 这个就是播放
 			},
-			lsPlay() {
+			lsPlay(n) {
 				var audio2 = this.$refs.music2;
-				audio2.play(); // 这个就是播放
+				//paused 判断是否为暂停状态
+				if(audio2.paused){// 如果是暂停状态, 让其播放, 反之暂停
+						audio2.play();
+				}else{
+						audio2.pause();
+				}
 			},
 			lsEnd() {
 				var audio2 = this.$refs.music2;
@@ -946,13 +1071,13 @@
 			},
 			bfPlay() {
 				var audio = this.$refs.music;
-				audio.volume = 0.5;
-				this.roleM = !this.roleM;
-				if (this.roleM) {
-					// audio1.pause();
+				// audio.volume = 0.5;
+				if (audio.paused) {
 					audio.play(); // 这个就是播放 
+					this.roleM = true;
 				} else {
 					audio.pause(); // 这个就是暂停
+					this.roleM = false;
 				}
 			},
 
@@ -1003,14 +1128,14 @@
 
 	.text {
 		position: absolute;
-		font-size: 0.36rem;
+		font-size: 0.32rem;
 		color: #333;
 		opacity: 1;
 
 		p {
 			opacity: 0;
 			animation: fadeIn linear 1.5s 0.5s forwards;
-			margin-bottom: 0.2rem;
+			margin-bottom: 0.1rem;
 
 			&:nth-of-type(1) {
 				animation-delay: 0.5s;
@@ -1132,7 +1257,7 @@
 				position: absolute;
 				top: 50%;
 				left: 50%;
-				margin: -1.45rem 0 0 -2rem;
+				margin: -2rem 0 0 -2rem;
 				font-size: 30px;
 				text-align: center;
 				padding-top: 2rem;
@@ -1178,10 +1303,16 @@
 				width: 1.42rem;
 				height: 4.58rem;
 				position: absolute;
-				top: 20%;
+				top: 16%;
 				left: 50%;
 				margin-left: -0.71rem;
 				animation: fadeInDown linear 1s, pulse linear 6s 1s infinite;
+			}
+			@media (max-device-height: 740px) {
+				.title{
+					top: 1%;
+					width: 1.2rem;
+				}
 			}
 
 			.ty {
@@ -1256,7 +1387,11 @@
 				top: 2.91rem;
 				left: 0.6rem;
 			}
-
+			@media (max-device-height: 740px) {
+				.p1-text{
+					top: 1rem;
+				}
+			}
 			.p1-nj1 {
 				width: 1.19rem;
 				height: 0.62rem;
@@ -1278,6 +1413,9 @@
 			}
 
 			@media (min-device-height: 740px) {
+				.p1-ty{
+					right: 0.8rem;
+				}
 				.p1-nj1 {
 					bottom: 8.5rem;
 				}
@@ -1320,8 +1458,9 @@
 
 			.p2-text {
 				.text;
-				top: 2.91rem;
+				top: 2.2rem;
 				left: 0.6rem;
+				font-size: 0.32rem;
 			}
 
 			.p2-phone {
@@ -1331,7 +1470,7 @@
 				background-size: 100%;
 				position: absolute;
 				bottom: 2.7rem;
-				right: 0.2rem;
+				right: 0.4rem;
 				padding: 0.75rem 0.25rem 0.18rem;
 				overflow: hidden;
 
@@ -1357,12 +1496,15 @@
 					animation: goUp linear 10s infinite;
 				}
 			}
-			@media (max-device-height: 700px) {
+			@media (max-device-height: 740px) {
 				.p2-phone{
-					bottom: 2.5rem;
+					bottom: 2rem;
+				}
+				.p2-man{
+					bottom: 1.2rem;
 				}
 				.p2-text{
-					top:2.6rem
+					top:1rem
 				}
 			}
 
@@ -1406,6 +1548,12 @@
 				}
 			}
 		}
+		@media (max-device-height: 740px) {
+			.page2{
+				background: url(../images/year/p2Bj1.jpg) center bottom no-repeat;
+				background-size: cover;
+			}
+		}
 
 		.page3 {
 			background: url(../images/year/p3Bj.jpg) center bottom no-repeat;
@@ -1439,10 +1587,9 @@
 
 			.p3-text {
 				.text;
-				top: 2.4rem;
+				top: 2rem;
 				left: 0.6rem;
 			}
-
 			.p3-man {
 				width: 1.56rem;
 				height: 4.75rem;
@@ -1511,7 +1658,7 @@
 					background: #566D94 url(../images/year/p3-t1.png) 5px center no-repeat;
 					background-size: 0.46rem;
 					right: -100px;
-					top: 5.2rem;
+					top: 5.35rem;
 					animation-delay: 5s;
 				}
 
@@ -1535,7 +1682,7 @@
 					background: #566D94 url(../images/year/p3-t4.png) 5px center no-repeat;
 					background-size: 0.46rem;
 					right: 0;
-					top: 5.1rem;
+					top: 5.35rem;
 					animation-delay: 2.2s;
 				}
 
@@ -1555,6 +1702,23 @@
 					animation-delay: 0;
 				}
 			}
+			@media (max-device-height: 740px) {
+				.p3-tm{
+					top: -1rem;
+					.tm2,.tm5,.tm6{
+						top: 6.2rem;
+					}
+				}
+							.p3-ty{
+								top: -1rem;
+							}
+							.p3-ty{
+								top: -1rem;
+							}
+							.p3-text{
+								top:1.4rem
+							}
+						}
 		}
 
 		.page4 {
@@ -1581,7 +1745,11 @@
 				top: 1.6rem;
 				left: 0.6rem;
 			}
-
+@media (max-device-height: 740px) {
+				.p4-text{
+					top:0.6rem
+				}
+			}
 			.p4-mtl {
 				width: 5.25rem;
 				height: 6.2rem;
@@ -1663,8 +1831,8 @@
 
 			.p5-text {
 				.text;
-				top: 2.91rem;
-				left: 0.6rem;
+				top: 2.4rem;
+				left: 0.4rem;
 			}
 
 			.p5-man {
@@ -1716,6 +1884,14 @@
 					}
 				}
 			}
+			@media (max-device-height: 740px) {
+				.p5-ty{
+					top: -0.6rem;
+				}
+							.p5-text{
+								top:2rem
+							}
+						}
 		}
 
 		.page6 {
@@ -1781,6 +1957,14 @@
 					bottom: 0;
 				}
 			}
+			@media (max-device-height: 740px) {
+				.p6-ty{
+					top: -0.5rem;
+				}
+							.p6-text{
+								top:2.3rem
+							}
+						}
 		}
 
 		.page7 {
@@ -1884,16 +2068,19 @@
 					left: -0.1rem;
 				}
 			}
+			@media (max-device-height: 740px) {
+				.p7-ty{
+					top: -0.5rem;
+				}
+							.p7-text{
+								top:1.8rem
+							}
+						}
 		}
 
 		.page8 {
 			background: url(../images/year/p8Bj.jpg) center bottom no-repeat;
 			background-size: cover;
-
-			.man {
-				left: 2rem;
-				bottom: 2rem;
-			}
 
 			.p8-ty {
 				.son;
@@ -1947,7 +2134,7 @@
 					}
 
 					img.qyD {
-						animation: pulse 2s ease infinite;
+						animation: pulseBig 1s linear infinite alternate;
 					}
 				}
 
@@ -2023,6 +2210,17 @@
 					animation-delay: 2.1s;
 				}
 			}
+			@media (max-device-height: 740px) {
+				.p8-ty{
+					top: -0.5rem;
+				}
+							.p8-text{
+								top:1.9rem
+							}
+							.man{
+								bottom: ;
+							}
+						}
 		}
 
 		.page9 {
@@ -2060,6 +2258,11 @@
 				top: 2.91rem;
 				left: 0.6rem;
 			}
+			@media (max-device-height: 740px) {
+							.p9-text{
+								left: 0.8rem;
+							}
+						}
 		}
 
 		.page10 {
@@ -2096,7 +2299,7 @@
 
 			.p10-text {
 				.text;
-				top: 2.91rem;
+				top: 3.4rem;
 				left: 0.6rem;
 				color: #fff;
 			}
@@ -2138,6 +2341,11 @@
 					left: -0.4rem;
 				}
 			}
+			@media (max-device-height: 740px) {
+							.p10-text{
+								top: 2.8rem;
+							}
+						}
 		}
 
 		.page11 {
@@ -2217,6 +2425,17 @@
 					animation: bounceIn 2s 0.5s linear infinite alternate;
 				}
 			}
+			@media (max-device-height: 740px) {
+				.p12-flag{
+					bottom: 5rem;
+				}
+					.p11-ty{
+						top: -0.4rem;
+					}
+							.p11-text{
+								top: 2.4rem;
+							}
+						}
 		}
 
 		.page12 {
@@ -2224,13 +2443,14 @@
 			background-size: cover;
 
 			.p12-title {
-				width: 6.2rem;
-				height: 2.5rem;
+				width: 5.1rem;
+				height: 2.38rem;
 				position: absolute;
-				left: 0.65rem;
-				top: 0;
-				background: url(../images/year/flag.gif) center no-repeat;
+				left: 1.2rem;
+				top: -0.1rem;
+				background: url(../images/year/p12-flag.png) center no-repeat;
 				background-size: 100%;
+				animation: piao linear 3s infinite alternate;
 			}
 
 			.p12-y1 {
@@ -2255,7 +2475,7 @@
 				width: 100%;
 				height: 5rem;
 				position: absolute;
-				left: 0;
+				left: 2rem;
 				bottom: 5.6rem;
 				display: none;
 
@@ -2318,7 +2538,7 @@
 				.flg5 {
 					top: 1.2rem;
 					right: 0.6rem;
-					animation-delay: 0.6s;
+					animation-delay: 1.2s;
 				}
 
 				.flg6 {
@@ -2336,7 +2556,7 @@
 				.flg8 {
 					top: 3.6rem;
 					right: 0rem;
-					animation-delay: 0.9s;
+					animation-delay: 1.4s;
 				}
 
 				.flg9 {
@@ -2353,6 +2573,12 @@
 			@media (min-device-height: 740px) {
 				.p12-flag{
 					bottom: 7rem;
+				}
+			}
+			@media (max-device-height: 740px) {
+				.p12-title{
+					background-size: 4rem;
+					top: -0.3rem;
 				}
 			}
 			.p12-man {
@@ -2473,7 +2699,7 @@
 					width: 100%;
 					height: 100%;
 					background: #000;
-					opacity: 0.5;
+					opacity: 0.65;
 					position: absolute;
 					top: 0;
 					left: 0;
@@ -2534,7 +2760,7 @@
 			}
 		}
 
-		#music {
+		#icon-music {
 			transform-origin: center;
 			display: block;
 			width: 0.7rem;
@@ -2552,7 +2778,9 @@
 		}
 	}
 
-
+.p8Map .cicle{
+	display: none;
+}
 	.p8Map .ba {
 		position: absolute;
 		left: 0.41rem;
@@ -2820,6 +3048,24 @@
 
 		100% {
 			transform: translateY(0px) scale(1);
+		}
+	}
+	@keyframes piao {
+		0% {
+			transform:translateX(-30px)  rotate(15deg);
+		}
+	
+		100% {
+			transform:translateX(30px)  rotate(-15deg);
+		}
+	}
+	@keyframes pulseBig{
+		0% {
+			transform:scale(1);
+		}
+			
+		100% {
+			transform:scale(1.1);
 		}
 	}
 </style>
