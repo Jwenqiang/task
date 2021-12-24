@@ -698,7 +698,7 @@
 							});
 
 							wx.ready(function() {
-								console.log('分享', shareObj)
+								console.log('分享55', shareObj)
 								//分享好友
 								wx.updateAppMessageShareData({
 									title: shareObj.title,
