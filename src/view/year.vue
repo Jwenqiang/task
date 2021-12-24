@@ -69,7 +69,7 @@
 						<div class="p2-y2"></div>
 						<div class="p2-y3"></div>
 						<div class="p2-text">
-							<p>让亲情更近，是爱的戏法。</p>
+							<p>让亲情更近，是爱的戏法，</p>
 							<p>也是<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>的追求。</p>
 							<p>肩负着“新一代”深圳人的购房梦想，</p>
 							<p><span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>的“星级”置业服务从此启航。</p>
@@ -96,7 +96,7 @@
 						<div class="p3-y3"></div>
 						<div class="p3-text">
 							<p>今年<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>接待了<span>{{my.CustomerCount}}</span>个线上客户，</p>
-							<p>为五湖四海的人提供置业服务，</p>
+							<p>为五湖四海的人提供置业服务。</p>
 							<p>因为<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>知道，</p>
 							<p>每一次咨询背后，</p>
 							<p>都是对美好生活的向往。</p>
@@ -120,10 +120,10 @@
 					<div class="content">
 						<div class="p4-yz"></div>
 						<div class="p4-text">
-							<p>在深圳2019.95平方公里的土地上，</p>
+							<p>在深圳1997.47平方公里的土地上，</p>
 							<p v-if="my.SalesCount>0"><span v-if="my.SalesCount<80">{{my.SalesCount}}</span><span v-else>近80</span>个房源找到了它的新主人，</p>
 							<p v-else>很多个房源找到了它的新主人，</p>
-							<p><span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>替他们点亮了一盏“叫做家”的灯。</p>
+							<p><span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>替他们点亮了一盏叫做“家”的灯。</p>
 						</div>
 						<div class="p4-mtl"></div>
 						<div class="p4-lb"></div>
@@ -145,13 +145,13 @@
 						<div class="p5-text">
 							<template v-if="my.SalesAmount>100000">
 								<p>说个了不起的数字，</p>
-								<p>今年<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>促成了<span>{{my.SalesAmount | twoFixed}}</span>万的成交额。</p>
-								<p>这绝对是一场硬仗，但<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>做到了。</p>
+								<p>今年<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>促成了<span>{{my.SalesAmount | twoFixed}}</span>万的成交额，</p>
+								<p>这绝对是一场硬仗，但<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>做到了！</p>
 							</template>
 							<template v-else>
 								<p>虽然今年房产市场不太好，</p>
 								<p>但是<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>依然促成好几笔成交，</p>
-								<p>这绝对是一场硬仗，但<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>做到了。</p>
+								<p>这绝对是一场硬仗，但<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>做到了！</p>
 							</template>
 						</div>
 						<div class="p5-man">
@@ -174,7 +174,7 @@
 						<div class="p6-y3"></div>
 						<div class="p6-text">
 							<p><span>{{my.TakeSeeDateStr}}</span>，</p>
-							<p>深圳体感温度高达<span>{{my.Temperature}}°</span>，</p>
+							<p>深圳体感温度高达<span>{{my.Temperature}}°C</span>，</p>
 							<template v-if="my.TakeSeeEstate">
 								<p><span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>带着客户到<span>{{my.TakeSeeEstate}}</span>小区，</p>
 								<p>看了个前前后后，</p>
@@ -309,7 +309,7 @@
 						<div class="p10-text">
 							<p>印象最深的客户，<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>还记得吗。</p>
 							<template v-if="my.WebChatStr">
-								<p>在那天的<span>{{my.WebChatStr}}</span>时间，</p>
+								<p><span>{{my.WebChatStr}}</span>，</p>
 								<p><span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>还在贴心线上服务，</p>
 								<p>为了他的安家梦而努力。</p>
 							</template>
@@ -338,7 +338,7 @@
 							<p>或许，一言「难」尽。</p>
 							<p>但因为不放弃与竭诚的努力，</p>
 							<p>今年<span v-if="isHe&&my.EmpName">{{my.EmpName | changeName}}</span><template v-else>你</template>的能力，</p>
-							<p>打败了中原<span>{{my.EmpRateStr}}%</span>的经纪人。</p>
+							<p>打败了<span>{{my.EmpRateStr}}%</span>的经纪人。</p>
 						</div>
 						<div class="p11-man" v-if="my.Sex=='男'">
 						</div>
@@ -448,12 +448,11 @@
 		imgUrl: "https://sz.centanet.com/partner/house/shareImg/year1.png",
 	};
 	import Vue from 'vue';
-	// import { load, updateConfig } from './wx'
 	import vueQr from 'vue-qr' //第二种绘制  可以加logo
 	import 'fullpage.js/vendors/scrolloverflow';
 	import VueFullpage from 'vue-fullpage.js';
 	Vue.use(VueFullpage);
-	var timeOutEvent = 0; //定时器 
+	var timeOutEvent = 0; //定时器
 	export default {
 		name: "year",
 		data() {
@@ -463,7 +462,7 @@
 					//是否显示导航，默认为false
 					navigation: false,
 					//横向slide幻灯片是否循环滚动
-					loopHorizontal: false,
+					loopHorizontal: true,
 					//是否使用css3 transform来实现滚动效果
 					// css3: true,
 					//是否显示两侧的箭头
@@ -509,12 +508,11 @@
 				isHe:false
 			}
 		},
+
 		components: {
 			vueQr
 		},
-		watch: {
 
-		},
 		filters: {
 			twoFixed(n) {
 				let num = n / 10000;
@@ -526,6 +524,7 @@
 				return niki;
 			}
 		},
+
 		created() {
 			this.readyLoad();
 
@@ -538,60 +537,8 @@
 				this.empNo=sessionStorage.getItem('empNo');
 			}
 		},
-		mounted() {
-			var wx = navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1; //获取判断用的对象
-			if (wx) {
-				//在微信中打开
-				this.setShare();
-				// this.initWeChat();
-			}
-			
-		},
+
 		methods: {
-			async initWeChat() {
-				const shareObj = {
-					title: '保利天汇•一桥汇前海',
-					desc: '【全程免费+专车接送】一桥一港双站3轨道四快线~',
-					link: window.location.href,
-					imgUrl: 'https://sz.centanet.com/partner/house/shareImg/sale-blth.png'
-				}
-
-				// 加载 SDK
-				await load()
-				if (!window.wx) throw new Error('WeChat JSSDK load error.')
-
-				// 更新微信配置
-			 await updateConfig()
-
-				// 注册分享事件
-				window.wx.ready(function() {
-					// 分享好友
-					window.wx.onMenuShareAppMessage({
-						...shareObj,
-						trigger: function() {
-							// 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
-							// alert('用户点击发送给朋友');
-						},
-						success: function() {},
-						cancel: function() {},
-						fail: function() {}
-					})
-
-					// 分享朋友圈
-					window.wx.onMenuShareTimeline({
-						...shareObj,
-						success: function(s) {
-							console.log("分享朋友圈", s)
-						},
-						cancel: function() {},
-						fail: function() {}
-					})
-				})
-
-				window.wx.error(res => {
-					window.console.log('wx error', res)
-				})
-			},
 			setBase() {
 				const canvas = document.querySelector('canvas')
 				const ctx = canvas.getContext('2d')
@@ -635,6 +582,7 @@
 					})
 				}
 			},
+
 			// 画海报
 			posterHb() {
 				console.log(this.my.EmpName)
@@ -665,7 +613,7 @@
 				}
 				ctx.fillText(`我全年共走了${this.my.StepNumber*360}步，足以绕深圳${this.my.TurnsNumber}圈`, 131, 768);
 				ctx.fillText(`......`, 131, 794);
-				// 
+				//
 				ctx.font = "38px FZLTCHJW--GB1-0";
 				ctx.fillStyle = "#fff";
 				ctx.fillText(this.my.EmpName, 247, 1043);
@@ -676,11 +624,11 @@
 
 				ctx.font = "32px PingFangSC-Regular";
 				ctx.fillStyle = "rgba(231, 21, 51, 1)";
-				ctx.fillText(`优秀的你打败了中原`, 109, 854);
-				ctx.fillText('%的经纪人', 491, 852);
+				ctx.fillText(`优秀的你打败了`, 109, 854);
+				ctx.fillText('的经纪人', 478, 852);
 				ctx.font = "bold 42px PingFangSC-Regular";
 				ctx.fillStyle = "rgba(231, 21, 51, 1)";
-				ctx.fillText(`${this.my.EmpRateStr}`, 402, 856);
+				ctx.fillText(`${this.my.EmpRateStr}%`, 338, 856);
 				ctx.font = "30px SourceHanSansCN-Regular";
 				ctx.fillStyle = "#fff";
 				ctx.fillText(`2022年Flag：${this.flagText}`, 115, 1188);
@@ -695,15 +643,17 @@
 
 
 			},
+
 			// 微信分享
-			setShare() { //
+			setShare() {
 				this.$axios({
 						method: "get",
-						url: "https://m.sz.centanet.com/partner/weixin/jssdkjsonp?url=" + encodeURIComponent(location.href)
+						url: "https://m.sz.centanet.com/partner/weixin/jssdkjsonp?url=" + encodeURIComponent(window.location.href)
 					})
 					.then(res => {
+            const params = new URLSearchParams({ EmpName: this.my.EmpName, EmpNo: this.my.EmpNo })
+            const url = [window.location.href, params.toString()].join(this.$route.path.includes('?') ? '&' : '?')
 						let data = JSON.parse(res.data.replace('(', '').replace(')', ''));
-						console.log(data)
 						if (data) {
 							wx.config({
 								debug: false,
@@ -711,67 +661,32 @@
 								timestamp: data.Timestamp,
 								nonceStr: data.NonceStr,
 								signature: data.Signature,
-								jsApiList: [
-									'onMenuShareTimeline',
-									'onMenuShareAppMessage',
-									'updateAppMessageShareData',
-									'updateTimelineShareData'
-								]
+								jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData']
 							});
+
 							wx.ready(function() {
 								console.log('分享', shareObj)
-								wx.onMenuShareTimeline({
-									title: shareObj.title,
-									desc: shareObj.desc,
-									link: location.href,
-									imgUrl: shareObj.imgUrl,
-									success: function(s) {
-										console.log("正确1", s)
-										// 设置成功
-									},
-									fail: (e) => {
-										console.log("错误1", e)
-									}
-								})
-								wx.onMenuShareAppMessage({
-									title: shareObj.title,
-									desc: shareObj.desc,
-									link: location.href,
-									imgUrl: shareObj.imgUrl,
-									success: function(s) {
-										console.log("正确2", s)
-										// 设置成功
-									},
-									fail: (e) => {
-										console.log("错误2", e)
-									}
-								})
 								//分享好友
 								wx.updateAppMessageShareData({
 									title: shareObj.title,
 									desc: shareObj.desc,
-									link: location.href,
+									link: url,
 									imgUrl: shareObj.imgUrl,
 									success: function(s) {
-										console.log("正确", s)
-										// 设置成功
 									},
 									fail: (e) => {
-										console.log("错误", e)
 									}
 								});
 								//分享朋友圈
 						  wx.updateTimelineShareData({
 									title: shareObj.title,
 									desc: shareObj.desc,
-									link: location.href,
+									link: url,
 									imgUrl: shareObj.imgUrl,
 									success: function(s) {
-										console.log("正确", s)
-										// 设置成功
 									},
 									fail: (e) => {
-										console.log("错误", e)
+
 									}
 								});
 							});
@@ -780,94 +695,11 @@
 							});
 						}
 					})
-			},
-			// 微信分享带信息
-			setShareMsg() { //
-				this.$axios({
-						method: "get",
-						url: "https://m.sz.centanet.com/partner/weixin/jssdkjsonp?url=" + encodeURIComponent(location.href)
-					})
-					.then(res => {
-						let data = JSON.parse(res.data.replace('(', '').replace(')', ''));
-						console.log(data)
-						if (data) {
-							wx.config({
-								debug: false,
-								appId: data.AppId,
-								timestamp: data.Timestamp,
-								nonceStr: data.NonceStr,
-								signature: data.Signature,
-								jsApiList: [
-									'onMenuShareTimeline',
-									'onMenuShareAppMessage',
-									'updateAppMessageShareData',
-									'updateTimelineShareData'
-								]
-							});
-							wx.ready(function() {
-								console.log('分享1', shareObj)
-								console.log(`传参empName=${this.my.EmpName}&empNo=${this.my.EmpNo}`);
-								wx.onMenuShareTimeline({
-									title: shareObj.title,
-									desc: shareObj.desc,
-									link: location.href+`?empName=${this.my.EmpName}&empNo=${this.my.EmpNo}`,
-									imgUrl: shareObj.imgUrl,
-									success: function(s) {
-										console.log("正确1", s)
-										// 设置成功
-									},
-									fail: (e) => {
-										console.log("错误1", e)
-									}
-								})
-								wx.onMenuShareAppMessage({
-									title: shareObj.title,
-									desc: shareObj.desc,
-									link: location.href+`?empName=${this.my.EmpName}&empNo=${this.my.EmpNo}`,
-									imgUrl: shareObj.imgUrl,
-									success: function(s) {
-										console.log("正确2", s)
-										// 设置成功
-									},
-									fail: (e) => {
-										console.log("错误2", e)
-									}
-								})
-								//分享好友
-								wx.updateAppMessageShareData({
-									title: shareObj.title,
-									desc: shareObj.desc,
-									link: location.href+`?empName=${this.my.EmpName}&empNo=${this.my.EmpNo}`,
-									imgUrl: shareObj.imgUrl,
-									success: function(s) {
-										console.log("正确", s)
-										// 设置成功
-									},
-									fail: (e) => {
-										console.log("错误", e)
-									}
-								});
-								//分享朋友圈
-						  wx.updateTimelineShareData({
-									title: shareObj.title,
-									desc: shareObj.desc,
-									link: location.href+`?empName=${this.my.EmpName}&empNo=${this.my.EmpNo}`,
-									imgUrl: shareObj.imgUrl,
-									success: function(s) {
-										console.log("正确", s)
-										// 设置成功
-									},
-									fail: (e) => {
-										console.log("错误", e)
-									}
-								});
-							});
-							wx.error(function(res) {
-								console.log(res)
-							});
-						}
+					.catch(err=>{
+						console.log('[ err ]', err)
 					})
 			},
+
 			loginGo(gh, name) {
 				if (!gh) {
 					if (this.name == "") {
@@ -907,12 +739,7 @@
 								this.posterHb();
 							}, 5000)
 							var wx = navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1; //获取判断用的对象
-							if (wx) {
-								//在微信中打开
-								setTimeout(()=>{
-									this.setShareMsg();
-								},1000)
-							}
+							wx && this.setShare();
 						} else {
 							this.showLogin = true;
 							this.$toast.text("只面向三级经纪人同事哟~");
@@ -938,7 +765,7 @@
 							// 图片加载
 							img.onload = () => {
 								console.log('[ 进度 ]', ++loaded, loaded / imgs.length)
-								//全部加载完成 
+								//全部加载完成
 								if (loaded / imgs.length > 0.9) {
 									setTimeout(() => {
 										this.ready = true;
@@ -991,12 +818,12 @@
 			},
 			// 触摸事件开始
 			gtouchstart() {
-				timeOutEvent = setTimeout(this.longPress, 500); //这里设置定时器，定义长按500毫秒触发长按事件，时间可以自己改，个人感觉500毫秒非常合适   
+				timeOutEvent = setTimeout(this.longPress, 500); //这里设置定时器，定义长按500毫秒触发长按事件，时间可以自己改，个人感觉500毫秒非常合适
 				return false;
 			},
-			//手释放，如果在500毫秒内就释放，则取消长按事件，此时可以执行onclick应该执行的事件   
+			//手释放，如果在500毫秒内就释放，则取消长按事件，此时可以执行onclick应该执行的事件
 			gtouchend() {
-				clearTimeout(timeOutEvent); //清除定时器   
+				clearTimeout(timeOutEvent); //清除定时器
 				this.goFast = false;
 				clearInterval(this.timeJS);
 				if (this.goTime > 2) {
@@ -1004,19 +831,19 @@
 				}
 
 				if (timeOutEvent != 0) {
-					//这里写要执行的内容（尤如onclick事件）   
+					//这里写要执行的内容（尤如onclick事件）
 					// alert("你这是点击，不是长按");
 				}
 				return false;
 			},
-			//如果手指有移动，则取消所有事件，此时说明用户只是要移动而不是长按   
+			//如果手指有移动，则取消所有事件，此时说明用户只是要移动而不是长按
 			gtouchmove() {
-				clearTimeout(timeOutEvent); //清除定时器   
+				clearTimeout(timeOutEvent); //清除定时器
 				timeOutEvent = 0;
 
 			},
 
-			//真正长按后应该执行的内容   
+			//真正长按后应该执行的内容
 			longPress() {
 				// alert("长按事件触发发");
 				this.goFast = true;
@@ -1073,7 +900,7 @@
 				var audio = this.$refs.music;
 				// audio.volume = 0.5;
 				if (audio.paused) {
-					audio.play(); // 这个就是播放 
+					audio.play(); // 这个就是播放
 					this.roleM = true;
 				} else {
 					audio.pause(); // 这个就是暂停
@@ -3054,7 +2881,7 @@
 		0% {
 			transform:translateX(-30px)  rotate(15deg);
 		}
-	
+
 		100% {
 			transform:translateX(30px)  rotate(-15deg);
 		}
@@ -3063,7 +2890,7 @@
 		0% {
 			transform:scale(1);
 		}
-			
+
 		100% {
 			transform:scale(1.1);
 		}
