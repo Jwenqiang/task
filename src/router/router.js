@@ -122,7 +122,7 @@ var router = new Router({
 			name:"year",
 			component:() =>import ('@/view/year'),
 			meta:{
-				title:'多少次努力光顾过你的2021',
+				title:'多少次努力光顾过你的2021-中原找房',
 				keepAlive:false
 			}			
 		}
