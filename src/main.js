@@ -54,7 +54,7 @@ sensors.init({//https://data.zhongyuanzhaofang.com/sa?project=production
      //是否开启点击图，default 表示开启，自动采集 $WebClick 事件，可以设置 'not_collect' 表示关闭。
      clickmap:'default',
      //是否开启触达图，not_collect 表示关闭，不会自动采集 $WebStay 事件，可以设置 'default' 表示开启。
-     scroll_notice_map:'not_collect'
+     scroll_notice_map:'default'
   }
 });
 // 注册公共属性

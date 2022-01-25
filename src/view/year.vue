@@ -406,7 +406,6 @@
 					</div>
 				</div>
 				<div class="slide page12">
-					
 					<div class="content">
 						<label id="logo"></label>
 						<div class="p12-y1"></div>
@@ -534,6 +533,7 @@
 					anchors: ["year", "year2", "year3", "year4", "year5"],
 					//是否锁定锚链接
 					lockAnchors: true,
+					// afterSlideLoad:this.afterSlideLoad  slide滑动之后的回调
 				},
 				roleM: false,
 				idx: 0,
@@ -596,6 +596,9 @@
 		},
 
 		methods: {
+			// afterSlideLoad( anchorLink, index, slideAnchor, slideIndex){
+			// 	console.log("1",anchorLink, '2',index, '3',slideAnchor, '4',slideIndex)
+			// },
 			setBase() {
 				const canvas = document.querySelector('canvas')
 				const ctx = canvas.getContext('2d')
@@ -699,26 +702,28 @@
 					this.hbUrl = d.toDataURL('image/jpeg')
 				}, 500)
 
-
-				this.$sensors.track('sc_click_activity', {
-					sc_business_type:'other',
-					sc_activity_name:document.title,
-					sc_activity_url:window.location.href,
-					sc_click_area:'底部区域',
-					sc_button_name:'生成海报',
-					sc_button_position:'(1,1)',
-					sc_value:this.flagText
-				});
+				if(!this.isHe){
+					this.$sensors.track('sc_click_activity', {
+						sc_business_type:'other',
+						sc_activity_name:document.title,
+						sc_activity_url:window.location.href,
+						sc_click_area:'底部区域',
+						sc_button_name:'生成海报',
+						sc_button_position:'(1,1)',
+						sc_value:this.flagText
+					});
+				}
+				
 			},
 
-			// 微信分享
-			setShare() {
+			// 企业微信分享兼容微信分享  url接口必需去掉#号encodeURIComponent一下
+			setShareQY() {
 				this.$axios({
 						method: "get",
-						url: "https://m.sz.centanet.com/partner/weixin/jssdkjsonp?url=" + encodeURIComponent(window
-							.location.href)
+						url: "https://m.sz.centanet.com/partner/weixin/qyweixinjssdkjsonp?url="+ encodeURIComponent(window.location.href.split('#')[0])
 					})
 					.then(res => {
+						console.log('获取到接口返回值2',res);
 						const params = new URLSearchParams({
 							empName: this.my.EmpName,
 							empNo: this.my.EmpNo
@@ -731,48 +736,62 @@
 							}
 							shareObj.title="多少次努力光顾过你的2021-中原找房"+this.my.EmpName;
 						let data = JSON.parse(res.data.replace('(', '').replace(')', ''));
+						// console.log(data);
 						if (data) {
 							wx.config({
 								debug: false,
-								appId: data.AppId,
+								appId: "wx2730a10487f9df56",
 								timestamp: data.Timestamp,
 								nonceStr: data.NonceStr,
 								signature: data.Signature,
-								jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData']
+								jsApiList: ['onMenuShareAppMessage',  'onMenuShareTimeline', 'onMenuShareWechat']
 							});
-
+			
 							wx.ready(function() {
-								console.log('分享55', shareObj)
-								//分享好友
-								wx.updateAppMessageShareData({
-									title: shareObj.title,
-									desc: shareObj.desc,
-									link: url,
-									imgUrl: shareObj.imgUrl,
-									success: function(s) {
-										console.log('[ suc ]', s)
-									},
-									fail: (e) => {
-										console.log('[ err ]', e)
-									}
-								});
-								//分享朋友圈
-								wx.updateTimelineShareData({
-									title: shareObj.title,
-									desc: shareObj.desc,
-									link: url,
-									imgUrl: shareObj.imgUrl,
-									success: function(s) {
-										console.log('[ suc ]', s)
-									},
-									fail: (e) => {
-										console.log('[ err ]', e)
-									}
-								});
-							});
+								// console.log('企业微信分享', shareObj)
+								// 老接口分享给朋友圈
+								wx.onMenuShareTimeline({
+								    title: shareObj.title,
+								    link: url,
+								    imgUrl: shareObj.imgUrl,
+								    success: function(s) {
+								    	console.log('[ suc ]', s)
+								    },
+								    fail: (e) => {
+								    	console.log('[ err ]', e)
+								    }
+								}),
+								// 企业微信
+								// 获取“转发”按钮点击状态及自定义分享
+								wx.onMenuShareAppMessage({
+								    title: shareObj.title,
+								    desc: shareObj.desc,
+								    link: url,
+								    imgUrl: shareObj.imgUrl,
+								    success: function(s) {
+								    	console.log('[ suc ]', s)
+								    },
+								    fail: (e) => {
+								    	console.log('[ err ]', e)
+								    }
+								})
+								// 获取“微信”按钮点击状态及自定义分享
+								wx.onMenuShareWechat({
+								    title: shareObj.title,
+								    desc: shareObj.desc,
+								    link: url,
+								    imgUrl: shareObj.imgUrl,
+								    success: function(s) {
+								    	console.log('[ suc ]', s)
+								    },
+								    fail: (e) => {
+								    	console.log('[ err ]', e)
+								    }
+								})
+							})
 							wx.error(function(res) {
 								console.log(res)
-							});
+							})
 						}
 					})
 					.catch(err => {
@@ -789,6 +808,8 @@
 						this.$toast.text("请输入您的工号");
 						return;
 					}
+				}else{
+					name=decodeURIComponent(name);
 				}
 				this.$axios({
 						method: "get",
@@ -806,7 +827,8 @@
 						} else if (res.data.IsSuccess) {
 							this.showLogin = false;
 							this.downloadData.url =
-								`https://sz.centanet.com/partner/house/app/year/#/year?empName=${res.data.Src.EmpName}&empNo=${res.data.Src.EmpNo}`;
+								`https://sz.centanet.com/partner/house/app/year/#/year?empName=${encodeURIComponent(res.data.Src.EmpName)}&empNo=${res.data.Src.EmpNo}`;
+								console.log(this.downloadData.url)
 							this.my = res.data.Src;
 							this.tx = res.data.Src.HeaderImage;
 							if (res.data.Src.RegionCode) {
@@ -822,10 +844,17 @@
 								this.posterHb();
 							}, 5000)
 							var wx = navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1; //获取判断用的对象
-							wx && this.setShare();
+							console.log("UA",navigator.userAgent)
+							wx && this.setShareQY();
 							document.title="多少次努力光顾过你的2021-中原找房"+res.data.Src.EmpName;
 							if(!gh){
 								this.$sensors.login(res.data.Src.EmpNo);
+								this.$sensors.track('sc_registration_login_result', {
+									sc_type:"登录",
+									sc_registration_login_way:"2",
+									sc_is_success:true,
+									sc_failure_reason:""
+								});
 							}
 						} else {
 							this.showLogin = true;
@@ -834,6 +863,14 @@
 							// 	return
 							// }
 							this.$toast.text("仅面向物业顾问、营业经理和PPSZ账号以及11月1日之前入职的住宅部物业顾问同事");
+							if(!gh){
+								this.$sensors.track('sc_registration_login_result', {
+									sc_type:"登录",
+									sc_registration_login_way:"2",
+									sc_is_success:false,
+									sc_failure_reason:"仅面向物业顾问、营业经理和PPSZ账号以及11月1日之前入职的住宅部物业顾问同事"
+								});
+							}
 						}
 					})
 					.catch(error => {
@@ -851,7 +888,7 @@
 					imgs.forEach(img => {
 						if (img.complete) {
 							// 图片加载完成
-							console.log('[ 进度 ]', ++loaded, imgs.length);
+							// console.log('[ 进度 ]', ++loaded, imgs.length);
 							if (loaded / imgs.length > 0.7) {
 								setTimeout(() => {
 									this.ready = true;
@@ -860,7 +897,7 @@
 						} else {
 							// 图片加载
 							img.onload = () => {
-								console.log('[ 进度 ]', ++loaded, loaded / imgs.length)
+								// console.log('[ 进度 ]', ++loaded, loaded / imgs.length)
 								//全部加载完成
 								if (loaded / imgs.length > 0.7) {
 									setTimeout(() => {
