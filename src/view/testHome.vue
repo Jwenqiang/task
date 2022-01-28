@@ -89,10 +89,9 @@
 				// 渠道  不区分大小写
 				const { channel_utm_source,channel_utm_medium, sem, hmpl, FirstQudao } = getQuerys(this.$route.query, ['sem', 'hmpl', 'FirstQudao', 'channel_utm_source','channel_utm_medium']);
 				console.log(channel_utm_source+channel_utm_medium)
-				
 				console.log(this.count);
-				console.log("组件的num："+this.num);//混入有对象有个num+1操作  所以这里输出5551 如果当前组件没有num则输出2
 				this.hello("我传值给minxins");
+				console.log("组件的num："+this.num);//混入有对象有个num+1操作  所以这里输出5551 如果当前组件没有num则输出2
 				// document.getElementById('file').addEventListener('change', function (event) {
 				//   console.log(event.target.files[0])
 				//   this.imageCompress(event.target.files[0]).then(blob => {
