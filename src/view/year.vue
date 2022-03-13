@@ -6,6 +6,9 @@
 			hidden></audio>
 		<audio controls="controls" loop="loop" preload="preload" src="images/leisheng.mp3" ref="music2" id="music2"
 			hidden></audio>
+			
+			
+			
 		<template v-if="ready">
 			<nut-popup v-model="showLogin" :close-on-click-overlay="false">
 				<div class="lgBox">
@@ -744,7 +747,8 @@
 								timestamp: data.Timestamp,
 								nonceStr: data.NonceStr,
 								signature: data.Signature,
-								jsApiList: ['onMenuShareAppMessage',  'onMenuShareTimeline', 'onMenuShareWechat']
+								jsApiList: ['onMenuShareAppMessage',  'onMenuShareTimeline', 'onMenuShareWechat'],
+								openTagList: ['wx-open-launch-app'] // 可选，需要使用的开放标签列表，例如['wx-open-launch-app']
 							});
 			
 							wx.ready(function() {
@@ -884,11 +888,12 @@
 			readyLoad() {
 				this.$nextTick(() => {
 					let loaded = 0
-					const imgs = this.$el.querySelectorAll('img')
+					const imgs = this.$el.querySelectorAll('img');
+					console.log(imgs);
 					imgs.forEach(img => {
 						if (img.complete) {
 							// 图片加载完成
-							// console.log('[ 进度 ]', ++loaded, imgs.length);
+							console.log('[ 完成进度 ]', ++loaded, imgs.length);
 							if (loaded / imgs.length > 0.7) {
 								setTimeout(() => {
 									this.ready = true;
@@ -897,7 +902,7 @@
 						} else {
 							// 图片加载
 							img.onload = () => {
-								// console.log('[ 进度 ]', ++loaded, loaded / imgs.length)
+								console.log('[ 加载进度 ]', ++loaded, loaded / imgs.length)
 								//全部加载完成
 								if (loaded / imgs.length > 0.7) {
 									setTimeout(() => {

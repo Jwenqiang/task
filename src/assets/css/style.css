@@ -1,3 +1,7 @@
+@font-face {
+	font-family:"fz";
+	src: url("fzzdhjt.TTF");
+}
 /*所有元素默认字体大小*/
 * {
 	box-sizing: border-box;
