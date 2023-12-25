@@ -63,9 +63,10 @@
 	// Mixins：则是在引入组件之后与组件中的对象和方法进行合并，相当于扩展了父组件的对象与方法，可以理解为形成了一个新的组件。
 	// 混入
 	import {myMinxin} from "@/assets/mixins/minxins.js";
+	import {myMiXin} from "./mixins/myMixin.js";
 	export default{
 		name: 'testHome',
-		mixins:[myMinxin],//值为函数的选项，如created,mounted等，就会被合并调用，混合对象里的钩子函数在组件里的钩子函数之前调用
+		mixins:[myMinxin,myMiXin],//值为函数的选项，如created,mounted等，就会被合并调用，混合对象里的钩子函数在组件里的钩子函数之前调用
 		data(){
 			return{
 				url:"http://www.baidu.com",
@@ -74,7 +75,8 @@
 					url: 'http://www.baidu.com',
 					icon: '随便一张图片的地址也行'
 				},
-				num:"555"//这个会替代混合对象中的num
+				num:"555",//这个会替代混合对象中的num
+				numR:'0'
 			}
 		},
 		components: {
@@ -98,6 +100,7 @@
 				//     console.log(blob)
 				//   })
 				// })
+				this.test1()
 			},
 		mounted() {
 			// QRCode.toCanvas(this.$refs.qr, this.url, error => {

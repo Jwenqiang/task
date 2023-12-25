@@ -8,7 +8,7 @@ const LOGIN_PAGE_NAME = "login";
 var router = new Router({
 	mode:"hash",
 	routes:[
-		{path:'/',redirect:'/testHome'},
+		{path:'/',redirect:'/game'},
 		{
 			path:'/Home',
 			name:"home",
@@ -123,6 +123,15 @@ var router = new Router({
 			component:() =>import ('@/view/year'),
 			meta:{
 				title:'多少次努力光顾过你的2021-中原找房',
+				keepAlive:false
+			}			
+		},
+		{
+			path:'/game',
+			name:"game",
+			component:() =>import ('@/view/game'),
+			meta:{
+				title:'成长系统4周年，看见成长-测测你的成长段位',
 				keepAlive:false
 			}			
 		}

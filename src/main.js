@@ -7,6 +7,7 @@ import Vuex from 'vuex'
 // 京东框架2.X
 import nutUI from '@nutui/nutui/dist/nutui.min.js';  // 加载构建后的JS
 import '@nutui/nutui/dist/nutui.min.css';  //加载构建后的CSS
+import 'fullpage.js/dist/fullpage.min.css'
 nutUI.install(Vue);
 
 

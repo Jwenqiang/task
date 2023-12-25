@@ -24,7 +24,8 @@
     "vue-photo-preview": "^1.1.3",
     "vue-qr": "^2.5.0",
     "vue-router": "^3.5.1",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "weixin-js-sdk": "^1.6.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.13",
